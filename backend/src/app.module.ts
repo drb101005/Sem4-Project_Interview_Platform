@@ -1,6 +1,5 @@
 ﻿import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { InterviewsModule } from './modules/interviews/interviews.module';
@@ -15,30 +14,35 @@ import { Interview } from './entities/interview.entity';
 import { Question } from './entities/question.entity';
 import { Answer } from './entities/answer.entity';
 import { TestModule } from './test/test.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    TypeOrmModule.forRootAsync({
-      inject: [ConfigService],
-      useFactory: (config: ConfigService) => ({
-        type: 'postgres',
-        url: config.get<string>('DATABASE_URL'),
-        entities: [User, Interview, Question, Answer],
-        synchronize: true,
-        ssl: config.get<string>('DATABASE_SSL') === 'true' ? { rejectUnauthorized: false } : false,
-      }),
-    }),
-    AuthModule,
-    UsersModule,
-    InterviewsModule,
-    QuestionsModule,
-    AnswersModule,
-    WebsocketModule,
-    AdminModule,
-    AiModule,
-    CloudinaryModule,
-    TestModule,
+    ...(process.env.SKIP_DB === 'true'
+      ? [TestModule]
+      : [
+          TypeOrmModule.forRootAsync({
+            inject: [ConfigService],
+            useFactory: (config: ConfigService) => ({
+              type: 'postgres',
+              url: config.get<string>('DATABASE_URL'),
+              entities: [User, Interview, Question, Answer],
+              synchronize: true,
+              ssl: config.get<string>('DATABASE_SSL') === 'true' ? { rejectUnauthorized: false } : false,
+            }),
+          }),
+          AuthModule,
+          UsersModule,
+          InterviewsModule,
+          QuestionsModule,
+          AnswersModule,
+          WebsocketModule,
+          AdminModule,
+          AiModule,
+          CloudinaryModule,
+          TestModule,
+        ]),
   ],
 })
 export class AppModule {}

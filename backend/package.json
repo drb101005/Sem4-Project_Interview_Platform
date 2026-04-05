@@ -1,4 +1,4 @@
-﻿{
+{
   "name": "ai-interview-backend",
   "version": "1.0.0",
   "description": "NestJS backend for AI Interview Platform",
@@ -15,7 +15,9 @@
     "@nestjs/jwt": "^10.2.0",
     "@nestjs/passport": "^10.0.3",
     "@nestjs/platform-express": "^10.3.10",
+    "@nestjs/platform-socket.io": "^10.4.22",
     "@nestjs/typeorm": "^10.0.2",
+    "@nestjs/websockets": "^10.4.22",
     "bcrypt": "^5.1.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
@@ -36,7 +38,9 @@
     "@nestjs/schematics": "^10.1.1",
     "@nestjs/testing": "^10.3.10",
     "@types/bcrypt": "^5.0.2",
+    "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.6",
+    "@types/multer": "^2.1.0",
     "@types/node": "^20.12.12",
     "@types/passport-jwt": "^4.0.1",
     "@types/uuid": "^9.0.8",
